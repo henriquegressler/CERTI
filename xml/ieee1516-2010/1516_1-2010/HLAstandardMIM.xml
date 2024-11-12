@@ -926,6 +926,25 @@
                         <semantics>Set the joined federate's Convey Producing Federate Switch to the provided value.
                         </semantics>
                      </parameter>
+                     <parameter>
+                        <name>HLAserviceReporting</name>
+                        <dataType>HLAswitch</dataType>
+                        <semantics>Set the joined federate's service reporting switch to the provided value. Specify
+                           whether to report service invocations to or from the specified joined federate via 
+                           HLAmanager.HLAfederate.HLAreport.HLAreportServiceInvocation interactions. If the specified 
+                           joined federate is subscribed to the HLAmanager.HLAfederate.HLAreport.HLAreportServiceInvocation 
+                           interaction, all attempts to enable for that joined federate by enabling this switch shall fail 
+                           and be reported via the normal MOM interaction failure means. (default = disabled).
+                        </semantics>
+                     </parameter>
+                     <parameter>
+                        <name>HLAexceptionReporting</name>
+                        <dataType>HLAswitch</dataType>
+                        <semantics>Set the joined federate's exception reporting switch to the provided value.
+                           Specify whether the RTI shall report service invocation exceptions via
+                           HLAmanager.HLAfederate.HLAreport.HLAreportException interactions (default = disabled).
+                        </semantics>
+                     </parameter>
                   </interactionClass>
                </interactionClass>
                <interactionClass>
@@ -2223,6 +2242,11 @@
                         synchronization point. It shall result in one interaction of class
                         HLAmanager.HLAfederation.HLAreport.HLAreportSynchronizationPointStaus.
                      </semantics>
+                     <parameter>
+                        <name>HLAsyncPointName</name>
+                        <dataType>HLAunicodeString</dataType>
+                        <semantics>Name of a particular synchronization point</semantics>
+                     </parameter>
                   </interactionClass>
                   <interactionClass>
                      <name>HLArequestFOMmoduleData</name>
@@ -2240,7 +2264,7 @@
                      </parameter>
                   </interactionClass>
                   <interactionClass>
-                     <name>HLArequestMIMdata</name>
+                     <name>HLArequestMIMData</name>
                      <sharing>Subscribe</sharing>
                      <transportation>HLAreliable</transportation>
                      <order>Receive</order>
@@ -2316,7 +2340,7 @@
                      </parameter>
                   </interactionClass>
                   <interactionClass>
-                     <name>HLAreportMIMdata</name>
+                     <name>HLAreportMIMData</name>
                      <sharing>Publish</sharing>
                      <transportation>HLAreliable</transportation>
                      <order>Receive</order>
@@ -2325,7 +2349,7 @@
                         for the federation.
                      </semantics>
                      <parameter>
-                        <name>HLAMIMdata</name>
+                        <name>HLAMIMData</name>
                         <dataType>HLAunicodeString</dataType>
                         <semantics>Contents of the reported MIM</semantics>
                      </parameter>
