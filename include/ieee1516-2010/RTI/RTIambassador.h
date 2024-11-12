@@ -16,8 +16,6 @@
 #ifndef RTI_RTIambassador_h
 #define RTI_RTIambassador_h
 
-#include <memory> /* need that for auto_ptr usage */
-
 namespace rti1516e
 {
    class FederateAmbassador;
@@ -25,6 +23,11 @@ namespace rti1516e
    class LogicalTimeFactory;
    class LogicalTimeInterval;
    class RangeBounds;
+}
+
+namespace std
+{
+    template <class T> class auto_ptr;
 }
 
 #include <RTI/SpecificConfig.h>

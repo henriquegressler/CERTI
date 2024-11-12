@@ -30,9 +30,9 @@
 #include "RTI1516fedTime.h"
 #include "RTIHandleFactory.h"
 #include <RTI/Exception.h>
-#include <RTI/certiLogicalTime.h>
-#include <RTI/certiLogicalTimeFactory.h>
-#include <RTI/certiLogicalTimeInterval.h>
+#include <RTI/LogicalTime.h>
+#include <RTI/LogicalTimeFactory.h>
+#include <RTI/LogicalTimeInterval.h>
 
 #include "M_Classes.hh"
 #include "PrettyDebug.hh"
@@ -121,18 +121,6 @@ rti1516e::AttributeHandleSet* getAHSFromRequest(T* request)
     }
 
     return result;
-}
-
-std::unique_ptr<rti1516e::LogicalTime> getLogicalTime()
-{
-    std::unique_ptr<rti1516e::LogicalTimeFactory> timeFactory
-        = rti1516e::LogicalTimeFactoryFactory::makeLogicalTimeFactory(L"");
-    if (timeFactory.get() != 0) {
-        return timeFactory->makeLogicalTime();
-    }
-    else {
-        throw rti1516e::RTIinternalError(L"Could not create LogicalTimeFactory");
-    }
 }
 }
 

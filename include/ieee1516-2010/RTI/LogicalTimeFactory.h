@@ -21,10 +21,14 @@ namespace rti1516e
    class VariableLengthData;
 }
 
+namespace std
+{
+   template <class T> class auto_ptr;
+}
+
 #include <RTI/SpecificConfig.h>
 #include <RTI/Exception.h>
 #include <string>
-#include <memory>
 
 // LogicalTimeFactory is used by the RTI to construct instances of classes
 // derived from LogicalTime and LogicalTimeInterval.  A federation is responsible
@@ -55,29 +59,29 @@ namespace rti1516e
             InternalError) = 0;
 
       // Return a LogicalTime with a value of "final"
-            virtual std::auto_ptr< LogicalTime > makeFinal()
+      virtual std::auto_ptr< LogicalTime > makeFinal()
          throw (
             InternalError) = 0;
 
       // Return a LogicalTimeInterval with a value of "zero"
-            virtual std::auto_ptr< LogicalTimeInterval > makeZero()
+      virtual std::auto_ptr< LogicalTimeInterval > makeZero()
          throw (
             InternalError) = 0;
 
       // Return a LogicalTimeInterval with a value of "epsilon"
-            virtual std::auto_ptr< LogicalTimeInterval > makeEpsilon()
+      virtual std::auto_ptr< LogicalTimeInterval > makeEpsilon()
          throw (
             InternalError) = 0;
 
       // LogicalTime decode from an encoded LogicalTime
-            virtual std::auto_ptr< LogicalTime > decodeLogicalTime (
+      virtual std::auto_ptr< LogicalTime > decodeLogicalTime (
          VariableLengthData const & encodedLogicalTime)
          throw (
             InternalError,
             CouldNotDecode) = 0;
 
       // Alternate LogicalTime decode that reads directly from a buffer
-            virtual std::auto_ptr< LogicalTime > decodeLogicalTime (
+      virtual std::auto_ptr< LogicalTime > decodeLogicalTime (
          void* buffer,
          size_t bufferSize)
          throw (

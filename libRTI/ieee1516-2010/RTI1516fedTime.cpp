@@ -21,10 +21,9 @@
 //
 // ----------------------------------------------------------------------------
 
-#include <RTI/certiLogicalTime.h>
-#include <RTI/certiLogicalTimeFactory.h>
-#include <RTI/certiLogicalTimeInterval.h>
-
+#include <RTI/LogicalTime.h>
+#include <RTI/LogicalTimeFactory.h>
+#include <RTI/LogicalTimeInterval.h>
 #include "certi.hh"
 #include <cmath>
 #include <cstdlib>
@@ -701,43 +700,91 @@ RTI1516fedTimeFactory::~RTI1516fedTimeFactory() throw()
 
 // Returns a LogicalTime with a value of "initial"
 
-std::unique_ptr<rti1516e::LogicalTime> RTI1516fedTimeFactory::makeLogicalTime() throw(rti1516e::InternalError)
+std::auto_ptr<rti1516e::LogicalTime> RTI1516fedTimeFactory::makeInitial() throw(rti1516e::InternalError)
 {
     RTI1516fedTime* fedTime = new RTI1516fedTime(0);
 
-    return std::unique_ptr<rti1516e::LogicalTime>(fedTime);
+    return std::auto_ptr<rti1516e::LogicalTime>(fedTime);
 }
 
-std::unique_ptr<rti1516e::LogicalTime>
-RTI1516fedTimeFactory::makeLogicalTime(double timeVal) throw(rti1516e::InternalError)
+std::auto_ptr<rti1516e::LogicalTime>
+RTI1516fedTimeFactory::makeFinal() throw(rti1516e::InternalError)
 {
-    RTI1516fedTime* fedTime = new RTI1516fedTime(timeVal);
+    RTI1516fedTime* fedTime = new RTI1516fedTime(std::numeric_limits<double>::max());
 
-    return std::unique_ptr<rti1516e::LogicalTime>(fedTime);
+    return std::auto_ptr<rti1516e::LogicalTime>(fedTime);
 }
 
 // Returns a LogicalTimeInterval with a value of "zero"
 
-std::unique_ptr<rti1516e::LogicalTimeInterval>
-RTI1516fedTimeFactory::makeLogicalTimeInterval() throw(rti1516e::InternalError)
+std::auto_ptr<rti1516e::LogicalTimeInterval>
+RTI1516fedTimeFactory::makeZero() throw(rti1516e::InternalError)
 {
     RTI1516fedTimeInterval* fedTimeInterval = new RTI1516fedTimeInterval(0);
 
-    return std::unique_ptr<rti1516e::LogicalTimeInterval>(fedTimeInterval);
+    return std::auto_ptr<rti1516e::LogicalTimeInterval>(fedTimeInterval);
 }
 
-std::unique_ptr<rti1516e::LogicalTimeInterval>
-RTI1516fedTimeFactory::makeLogicalTimeInterval(double timeInterval) throw(rti1516e::InternalError)
+std::auto_ptr<rti1516e::LogicalTimeInterval>
+RTI1516fedTimeFactory::makeEpsilon() throw(rti1516e::InternalError)
 {
-    RTI1516fedTimeInterval* fedTimeInterval = new RTI1516fedTimeInterval(timeInterval);
+    RTI1516fedTimeInterval* fedTimeInterval = new RTI1516fedTimeInterval(std::numeric_limits<double>::epsilon());
 
-    return std::unique_ptr<rti1516e::LogicalTimeInterval>(fedTimeInterval);
+    return std::auto_ptr<rti1516e::LogicalTimeInterval>(fedTimeInterval);
 }
 
-std::unique_ptr<rti1516e::LogicalTimeFactory>
-rti1516e::LogicalTimeFactoryFactory::makeLogicalTimeFactory(std::wstring const& /*implementationName*/)
+std::auto_ptr<rti1516e::LogicalTime>
+RTI1516fedTimeFactory::decodeLogicalTime(rti1516e::VariableLengthData const& encodedLogicalTime) throw(rti1516e::InternalError, rti1516e::CouldNotDecode)
 {
-    RTI1516fedTimeFactory* fedTimeFactory = new RTI1516fedTimeFactory();
+    RTI1516fedTime* fedTime = new RTI1516fedTime(0);
+    fedTime->decode(encodedLogicalTime);
 
-    return std::unique_ptr<rti1516e::LogicalTimeFactory>(fedTimeFactory);
+    return std::auto_ptr<rti1516e::LogicalTime>(fedTime);
+}
+
+std::auto_ptr<rti1516e::LogicalTime>
+RTI1516fedTimeFactory::decodeLogicalTime(void* buffer, size_t bufferSize) throw(rti1516e::InternalError, rti1516e::CouldNotDecode)
+{
+    RTI1516fedTime* fedTime = new RTI1516fedTime(0);
+    fedTime->decode(buffer, bufferSize);
+
+    return std::auto_ptr<rti1516e::LogicalTime>(fedTime);
+}
+
+std::auto_ptr<rti1516e::LogicalTimeInterval>
+RTI1516fedTimeFactory::decodeLogicalTimeInterval(rti1516e::VariableLengthData const& encodedValue) throw(rti1516e::InternalError, rti1516e::CouldNotDecode)
+{
+    RTI1516fedTimeInterval* fedTimeInterval = new RTI1516fedTimeInterval(0);
+    fedTimeInterval->decode(encodedValue);
+
+    return std::auto_ptr<rti1516e::LogicalTimeInterval>(fedTimeInterval);
+}
+
+std::auto_ptr<rti1516e::LogicalTimeInterval>
+RTI1516fedTimeFactory::decodeLogicalTimeInterval(void* buffer, size_t bufferSize) throw(rti1516e::InternalError, rti1516e::CouldNotDecode)
+{
+    RTI1516fedTimeInterval* fedTimeInterval = new RTI1516fedTimeInterval(0);
+    fedTimeInterval->decode(buffer, bufferSize);
+
+    return std::auto_ptr<rti1516e::LogicalTimeInterval>(fedTimeInterval);
+}
+
+std::wstring
+RTI1516fedTimeFactory::getName() const
+{
+    return L"RTI1516fedTime";
+}
+
+std::auto_ptr<rti1516e::LogicalTimeFactory>
+rti1516e::LogicalTimeFactoryFactory::makeLogicalTimeFactory(std::wstring const& implementationName)
+{
+    /*std::auto_ptr<rti1516e::LogicalTimeFactory> factory
+        = HLAlogicalTimeFactoryFactory::makeLogicalTimeFactory(implementationName);
+    if (factory.get() != nullptr)
+        return factory;*/
+
+    if (implementationName == L"RTI1516fedTime")
+        return std::auto_ptr<rti1516e::LogicalTimeFactory>(new RTI1516fedTimeFactory());
+
+    return std::auto_ptr<rti1516e::LogicalTimeFactory>(nullptr);
 }

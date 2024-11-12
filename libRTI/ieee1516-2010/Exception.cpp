@@ -22,6 +22,7 @@
 // ----------------------------------------------------------------------------
 
 #include <RTI/Exception.h>
+#include <RTI/encoding/EncodingExceptions.h>
 #include <iostream>
 #include <sstream>
 
@@ -187,6 +188,7 @@ RTI_EXCEPTION_IMPL(UnableToPerformSave)
 RTI_EXCEPTION_IMPL(UnknownName)
 RTI_EXCEPTION_IMPL(UnsupportedCallbackModel)
 RTI_EXCEPTION_IMPL(InternalError)
+RTI_EXCEPTION_IMPL(EncoderException)
 
 #undef RTI_EXCEPTION_IMPL
 

@@ -25,11 +25,11 @@
 #include "RTIambassadorImplementation.h"
 
 #include <RTI/Typedefs.h>
+#include <RTI/RTI1516.h>
 
 #include "Message.hh"
 #include "MessageBuffer.hh"
 #include "RootObject.hh"
-#include <RTI/certiRTI1516.h>
 
 namespace certi {
 

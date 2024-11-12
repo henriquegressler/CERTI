@@ -1,10 +1,9 @@
 #ifndef RTI1516E_FEDTIME_H
 #define RTI1516E_FEDTIME_H
 
-#include <RTI/certiLogicalTime.h>
-#include <RTI/certiLogicalTimeInterval.h>
-#include <RTI/certiLogicalTimeFactory.h>
-
+#include <RTI/LogicalTime.h>
+#include <RTI/LogicalTimeFactory.h>
+#include <RTI/LogicalTimeInterval.h>
 namespace rti1516e {
 	class VariableLengthData;
 }
@@ -277,25 +276,53 @@ public:
 
 	// Returns a LogicalTime with a value of "initial"
 	virtual
-		std::unique_ptr< rti1516e::LogicalTime >
-		makeLogicalTime()
+		std::auto_ptr< rti1516e::LogicalTime >
+		makeInitial()
 		throw (rti1516e::InternalError);
 
 	virtual
-		std::unique_ptr< rti1516e::LogicalTime >
-		makeLogicalTime(double timeVal)
+		std::auto_ptr< rti1516e::LogicalTime >
+		makeFinal()
 		throw (rti1516e::InternalError);
 
 	// Returns a LogicalTimeInterval with a value of "zero"
 	virtual 
-		std::unique_ptr< rti1516e::LogicalTimeInterval >
-		makeLogicalTimeInterval() 
+		std::auto_ptr< rti1516e::LogicalTimeInterval >
+		makeZero() 
 		throw (rti1516e::InternalError);
 
 	virtual 
-		std::unique_ptr< rti1516e::LogicalTimeInterval >
-		makeLogicalTimeInterval(double timeInterval) 
+		std::auto_ptr< rti1516e::LogicalTimeInterval >
+		makeEpsilon() 
 		throw (rti1516e::InternalError);
+
+    virtual
+		std::auto_ptr< rti1516e::LogicalTime >
+		decodeLogicalTime(rti1516e::VariableLengthData const& encodedLogicalTime)
+		throw (rti1516e::InternalError, rti1516e::CouldNotDecode);
+
+    // Alternate LogicalTime decode that reads directly from a buffer
+    virtual
+		std::auto_ptr< rti1516e::LogicalTime >
+		decodeLogicalTime(void* buffer, size_t bufferSize)
+		throw (rti1516e::InternalError, rti1516e::CouldNotDecode);
+
+    // LogicalTimeInterval decode from an encoded LogicalTimeInterval
+    virtual
+		std::auto_ptr< rti1516e::LogicalTimeInterval >
+		decodeLogicalTimeInterval(rti1516e::VariableLengthData const& encodedValue)
+		throw (rti1516e::InternalError, rti1516e::CouldNotDecode);
+
+    // Alternate LogicalTimeInterval decode that reads directly from a buffer
+    virtual
+		std::auto_ptr< rti1516e::LogicalTimeInterval >
+		decodeLogicalTimeInterval(void* buffer, size_t bufferSize)
+		throw (rti1516e::InternalError, rti1516e::CouldNotDecode);
+
+    // Return the name of the logical time implementation
+    virtual
+		std::wstring
+		getName() const;
 
 private:
 	friend class rti1516e::LogicalTimeFactoryFactory;

@@ -98,9 +98,6 @@ endif (MINGW)
 
 ##########################################################
 set(FEDTIME1516_SRCS
-    ${CMAKE_SOURCE_DIR}/include/ieee1516-2010/RTI/certiLogicalTime.h
-    ${CMAKE_SOURCE_DIR}/include/ieee1516-2010/RTI/certiLogicalTimeInterval.h
-    ${CMAKE_SOURCE_DIR}/include/ieee1516-2010/RTI/certiLogicalTimeFactory.h
     RTI1516fedTime.h
     RTI1516fedTime.cpp
    )
