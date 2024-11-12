@@ -790,7 +790,7 @@ Responses Mom::processFederateRequestObjectInstancesUpdated(const FederateHandle
     std::map<ObjectClassHandle, int> objectInstancesCounts;
 
     for (const auto& pair : my_object_instances_updated[federate_handle]) {
-        if (not pair.second.empty()) {
+        if (!pair.second.empty()) {
             objectInstancesCounts[pair.first] = pair.second.size();
         }
     }
@@ -826,7 +826,7 @@ Responses Mom::processFederateRequestObjectInstancesReflected(const FederateHand
     std::map<ObjectClassHandle, int> objectInstancesCounts;
 
     for (const auto& pair : my_object_instances_reflected[federate_handle]) {
-        if (not pair.second.empty()) {
+        if (!pair.second.empty()) {
             objectInstancesCounts[pair.first] = pair.second.size();
         }
     }

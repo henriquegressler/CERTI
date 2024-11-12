@@ -370,7 +370,7 @@ XmlParser::HLAXmlStdVersion_t XmlParser::version(std::string pathToXmlFile)
     if (doc == 0) {
         cerr << "XML file not parsed successfully" << endl;
         xmlFreeDoc(doc);
-        throw CouldNotOpenFED("Could not open File:" + pathToXmlFile);
+        throw CouldNotOpenFED("XML file:" + pathToXmlFile + " not parsed succesfully");
     }
 
     // Is there a root element ?

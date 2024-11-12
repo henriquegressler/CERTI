@@ -232,7 +232,7 @@ bool Mom::isAvailableInRootObjectAndCompliant(const RootObject& root)
 {
     // Pre check with sizes
     if (root.ObjectClasses->size() < the_required_object_classes.size()
-        or root.Interactions->size() < the_required_interactions.size()) {
+        || root.Interactions->size() < the_required_interactions.size()) {
         Debug(D, pdDebug)
             << "the root object does not contain enough object classes or interactions to have a mom definition."
             << endl;
