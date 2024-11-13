@@ -27,7 +27,7 @@ std::map<std::wstring, std::map<std::wstring, DataType>> the_mom_classes{
      {{L"HLAfederationName", DataType::HLAunicodeString},
       {L"HLAfederatesInFederation", DataType::HLAhandleList},
       {L"HLARTIversion", DataType::HLAunicodeString},
-      {L"HLAMIMDesignator", DataType::HLAunicodeString},
+      {L"HLAMIMdesignator", DataType::HLAunicodeString},
       {L"HLAFOMmoduleDesignatorList", DataType::HLAmoduleDesignatorList},
       {L"HLAcurrentFDD", DataType::HLAunicodeString},
       {L"HLAtimeImplementationName", DataType::HLAunicodeString},

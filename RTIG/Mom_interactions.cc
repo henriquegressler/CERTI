@@ -97,7 +97,7 @@ namespace rtig {
     /** The interaction shall be sent when a federate has been lost from the federation due to a fault. */
     "HLAmanager.HLAfederate.HLAreport.HLAreportFederateLost"
         "HLAfederateName"
-        "HLAtimestamp"
+        "HLAtimeStamp"
         "HLAfaultDescription"
 
 #endif

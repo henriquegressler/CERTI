@@ -69,7 +69,7 @@ Responses Mom::registerFederation()
     my_attribute_values_cache[my_federation_object][attribute] = encodeVersion(my_federation.getRtiVersion());
 
     // Static
-    attribute = my_attribute_cache["HLAmanager.HLAfederation.HLAMIMDesignator"];
+    attribute = my_attribute_cache["HLAmanager.HLAfederation.HLAMIMdesignator"];
     attributes.push_back(attribute);
     my_attribute_values_cache[my_federation_object][attribute] = encodeString(my_federation.getMimModule());
 
