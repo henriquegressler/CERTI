@@ -27,12 +27,12 @@
 
 #include <certi.hh>
 
-#include "RTI1516fedTime.h"
 #include "RTIHandleFactory.h"
 #include <RTI/Exception.h>
 #include <RTI/LogicalTime.h>
 #include <RTI/LogicalTimeFactory.h>
 #include <RTI/LogicalTimeInterval.h>
+#include <RTI/time/HLAfloat64Time.h>
 
 #include "M_Classes.hh"
 #include "PrettyDebug.hh"
@@ -855,7 +855,7 @@ void RTI1516ambassador::Private::callFederateAmbassador(Message* msg)
                 rti1516e::MessageRetractionHandle event
                     = rti1516e::MessageRetractionHandleFriend::createRTI1516Handle(certiHandle, sn);
 
-                std::unique_ptr<rti1516e::LogicalTime> fedTime(new RTI1516fedTime(msg->getDate().getTime()));
+                std::unique_ptr<rti1516e::LogicalTime> fedTime = std::make_unique<rti1516e::HLAfloat64Time>(msg->getDate().getTime());
 
                 fed_amb->reflectAttributeValues(instance, //ObjectInstanceHandle
                                                 *attributes, //AttributeHandleValueMap &
@@ -895,7 +895,7 @@ void RTI1516ambassador::Private::callFederateAmbassador(Message* msg)
                 rti1516e::MessageRetractionHandle event
                     = rti1516e::MessageRetractionHandleFriend::createRTI1516Handle(certiHandle, sn);
 
-                std::unique_ptr<rti1516e::LogicalTime> fedTime(new RTI1516fedTime(msg->getDate().getTime()));
+                std::unique_ptr<rti1516e::LogicalTime> fedTime = std::make_unique<rti1516e::HLAfloat64Time>(msg->getDate().getTime());
 
                 fed_amb->receiveInteraction(interactionHandle, // InteractionClassHandle
                                             *parameters, // ParameterHandleValueMap &
@@ -934,7 +934,7 @@ void RTI1516ambassador::Private::callFederateAmbassador(Message* msg)
                 rti1516e::MessageRetractionHandle event
                     = rti1516e::MessageRetractionHandleFriend::createRTI1516Handle(certiHandle, sn);
 
-                std::unique_ptr<rti1516e::LogicalTime> fedTime(new RTI1516fedTime(msg->getDate().getTime()));
+                std::unique_ptr<rti1516e::LogicalTime> fedTime = std::make_unique<rti1516e::HLAfloat64Time>(msg->getDate().getTime());
 
                 fed_amb->removeObjectInstance(
                     instance, tagVarData, rti1516e::TIMESTAMP, *fedTime, rti1516e::RECEIVE, event, sri);
@@ -1104,23 +1104,21 @@ void RTI1516ambassador::Private::callFederateAmbassador(Message* msg)
 
     case Message::TIME_ADVANCE_GRANT:
         try {
-            fed_amb->timeAdvanceGrant(RTI1516fedTime(msg->getDate().getTime()));
+            fed_amb->timeAdvanceGrant(rti1516e::HLAfloat64Time(msg->getDate().getTime()));
         }
         CATCH_FEDERATE_AMBASSADOR_EXCEPTIONS(L"timeAdvanceGrant")
         break;
 
     case Message::TIME_REGULATION_ENABLED:
         try {
-            std::unique_ptr<rti1516e::LogicalTime> fedTime(new RTI1516fedTime(msg->getDate().getTime()));
-            fed_amb->timeRegulationEnabled(*fedTime);
+            fed_amb->timeRegulationEnabled(rti1516e::HLAfloat64Time(msg->getDate().getTime()));
         }
         CATCH_FEDERATE_AMBASSADOR_EXCEPTIONS(L"timeRegulationEnabled")
         break;
 
     case Message::TIME_CONSTRAINED_ENABLED:
         try {
-            std::unique_ptr<rti1516e::LogicalTime> fedTime(new RTI1516fedTime(msg->getDate().getTime()));
-            fed_amb->timeConstrainedEnabled(*fedTime);
+            fed_amb->timeConstrainedEnabled(rti1516e::HLAfloat64Time(msg->getDate().getTime()));
         }
         CATCH_FEDERATE_AMBASSADOR_EXCEPTIONS(L"timeConstrainedEnabled")
         break;

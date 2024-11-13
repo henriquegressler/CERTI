@@ -34,8 +34,8 @@
 
 #include "PrettyDebug.hh"
 
+#include <RTI/time/HLAfloat64Time.h>
 #include "M_Classes.hh"
-#include "RTI1516fedTime.h"
 #include "RTIHandleFactory.h"
 
 #include <algorithm>
@@ -538,7 +538,7 @@ void RTI1516ambassador::requestFederationSave(std::wstring const& label, rti1516
 
     Debug(G, pdGendoc) << "enter RTI1516ambassador::requestFederationSave with time" << std::endl;
 
-    certi::FederationTime certiFedTime(certi_cast<RTI1516fedTime>()(theTime).getFedTime());
+    certi::FederationTime certiFedTime(certi_cast<rti1516e::HLAfloat64Time>()(theTime).getTime());
     req.setDate(certiFedTime);
 
     std::string labelString(label.begin(), label.end());
@@ -1022,7 +1022,7 @@ rti1516e::MessageRetractionHandle RTI1516ambassador::updateAttributeValues(
 
     req.setObject(rti1516e::ObjectInstanceHandleFriend::toCertiHandle(theObject));
 
-    certi::FederationTime certiFedTime(certi_cast<RTI1516fedTime>()(theTime).getFedTime());
+    certi::FederationTime certiFedTime(certi_cast<rti1516e::HLAfloat64Time>()(theTime).getTime());
     req.setDate(certiFedTime);
 
     if (theUserSuppliedTag.data() == NULL) {
@@ -1088,7 +1088,7 @@ RTI1516ambassador::sendInteraction(rti1516e::InteractionClassHandle theInteracti
         = rti1516e::InteractionClassHandleFriend::toCertiHandle(theInteraction);
     req.setInteractionClass(classHandle);
 
-    certi::FederationTime certiFedTime(certi_cast<RTI1516fedTime>()(theTime).getFedTime());
+    certi::FederationTime certiFedTime(certi_cast<rti1516e::HLAfloat64Time>()(theTime).getTime());
     req.setDate(certiFedTime);
 
     if (theUserSuppliedTag.data() == NULL) {
@@ -1147,7 +1147,7 @@ rti1516e::MessageRetractionHandle RTI1516ambassador::deleteObjectInstance(
 
     req.setObject(rti1516e::ObjectInstanceHandleFriend::toCertiHandle(theObject));
 
-    certi::FederationTime certiFedTime(certi_cast<RTI1516fedTime>()(theTime).getFedTime());
+    certi::FederationTime certiFedTime(certi_cast<rti1516e::HLAfloat64Time>()(theTime).getTime());
     req.setDate(certiFedTime);
 
     if (theUserSuppliedTag.data() == NULL) {
@@ -1672,7 +1672,7 @@ void RTI1516ambassador::timeAdvanceRequest(rti1516e::LogicalTime const& theTime)
 {
     M_Time_Advance_Request req, rep;
 
-    certi::FederationTime certiFedTime(certi_cast<RTI1516fedTime>()(theTime).getFedTime());
+    certi::FederationTime certiFedTime(certi_cast<rti1516e::HLAfloat64Time>()(theTime).getTime());
     req.setDate(certiFedTime);
     p->executeService(&req, &rep);
 }
@@ -1692,7 +1692,7 @@ void RTI1516ambassador::timeAdvanceRequestAvailable(rti1516e::LogicalTime const&
 {
     M_Time_Advance_Request_Available req, rep;
 
-    certi::FederationTime certiFedTime(certi_cast<RTI1516fedTime>()(theTime).getFedTime());
+    certi::FederationTime certiFedTime(certi_cast<rti1516e::HLAfloat64Time>()(theTime).getTime());
     req.setDate(certiFedTime);
 
     p->executeService(&req, &rep);
@@ -1713,7 +1713,7 @@ void RTI1516ambassador::nextMessageRequest(rti1516e::LogicalTime const& theTime)
 {
     M_Next_Event_Request req, rep;
 
-    certi::FederationTime certiFedTime(certi_cast<RTI1516fedTime>()(theTime).getFedTime());
+    certi::FederationTime certiFedTime(certi_cast<rti1516e::HLAfloat64Time>()(theTime).getTime());
     req.setDate(certiFedTime);
 
     p->executeService(&req, &rep);
@@ -1734,7 +1734,7 @@ void RTI1516ambassador::nextMessageRequestAvailable(rti1516e::LogicalTime const&
 {
     M_Next_Event_Request_Available req, rep;
 
-    certi::FederationTime certiFedTime(certi_cast<RTI1516fedTime>()(theTime).getFedTime());
+    certi::FederationTime certiFedTime(certi_cast<rti1516e::HLAfloat64Time>()(theTime).getTime());
     req.setDate(certiFedTime);
 
     p->executeService(&req, &rep);
@@ -1757,7 +1757,7 @@ void RTI1516ambassador::flushQueueRequest(rti1516e::LogicalTime const& theTime) 
     throw rti1516e::RTIinternalError(L"Unimplemented Service flushQueueRequest");
     M_Flush_Queue_Request req, rep;
 
-    certi::FederationTime certiFedTime(certi_cast<RTI1516fedTime>()(theTime).getFedTime());
+    certi::FederationTime certiFedTime(certi_cast<rti1516e::HLAfloat64Time>()(theTime).getTime());
     req.setDate(certiFedTime);
 
     p->executeService(&req, &rep);
@@ -1810,7 +1810,7 @@ bool RTI1516ambassador::queryGALT(rti1516e::LogicalTime& theTime) throw(rti1516e
     }
 
     // JvY: TODO Controleren of dit blijft werken met andere tijdsimplementaties
-    certi_cast<RTI1516fedTime>()(theTime) = rep.getDate().getTime();
+    theTime = rti1516e::HLAfloat64Time(rep.getDate().getTime());
 
     return true;
 }
@@ -1827,7 +1827,7 @@ void RTI1516ambassador::queryLogicalTime(rti1516e::LogicalTime& theTime) throw(r
     p->executeService(&req, &rep);
 
     // JvY: TODO Controleren of dit blijft werken met andere tijdsimplementaties
-    certi_cast<RTI1516fedTime>()(theTime) = rep.getDate().getTime();
+    theTime = rti1516e::HLAfloat64Time(rep.getDate().getTime());
 }
 
 // 8.18
@@ -1848,7 +1848,7 @@ bool RTI1516ambassador::queryLITS(rti1516e::LogicalTime& theTime) throw(rti1516e
         return false;
     }
     // JvY: TODO Controleren of dit blijft werken met andere tijdsimplementaties
-    certi_cast<RTI1516fedTime>()(theTime) = rep.getDate().getTime();
+    theTime = rti1516e::HLAfloat64Time(rep.getDate().getTime());
 
     return true;
 }

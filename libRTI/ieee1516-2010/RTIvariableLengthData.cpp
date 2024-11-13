@@ -3,20 +3,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include <RTI/LogicalTime.h>
-#include <RTI/LogicalTimeFactory.h>
-#include <RTI/LogicalTimeInterval.h>
-
-rti1516e::LogicalTime::~LogicalTime()
-{
-}
-rti1516e::LogicalTimeFactory::~LogicalTimeFactory()
-{
-}
-rti1516e::LogicalTimeInterval::~LogicalTimeInterval()
-{
-}
-
 namespace rti1516e
 {
 	// ******************************************************
